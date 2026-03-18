@@ -1111,7 +1111,7 @@ const VCGWelcomeWidget = () => {
             
                   <div className="flex items-center gap-2.5 mb-2.5">
                     {getStatusBadge(topic.status)}
-                    <span className="text-[11px] text-muted-foreground">{topic.insights} insights</span>
+                    <span className="text-[11px] text-muted-foreground">88 pathways</span>
                   </div>
                   <div className="border-t border-border/40 pt-2.5">
                     <span className="text-[11px] text-muted-foreground/60">Last updated {topic.lastUpdated}</span>
