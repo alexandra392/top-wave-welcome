@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { ArrowLeft, Calendar, FileText, Filter, Download, Globe, FlaskConical, ShoppingBag, Leaf, Cpu, ChevronRight, ChevronDown, Search, X, Beaker, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, FileText, Filter, Download, Globe, FlaskConical, ShoppingBag, Leaf, Cpu, ChevronRight, ChevronDown, Search, X, Beaker, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
@@ -1174,9 +1174,23 @@ const PatentLandscape = () => {
                                    </div>
                                  ))}
                                </div>
-                             </div>
-                           </div>
-                         </>
+                              </div>
+                            </div>
+
+                            <div className="px-5 py-3 border-t border-border flex-shrink-0">
+                              <Button
+                                onClick={() => {
+                                  setSelectedSubcategory(null);
+                                  setSelectedTechInPopup(null);
+                                  navigate(`/landscape/${category}/${topic}/value-chain/pathways?feedstock=${encodeURIComponent(selectedSubcategory!)}`);
+                                }}
+                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs gap-2"
+                              >
+                                View Pathways for {selectedSubcategory}
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </Button>
+                            </div>
+                          </>
                        );
                      })()}
                    </DialogContent>

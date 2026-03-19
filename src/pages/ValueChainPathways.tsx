@@ -134,6 +134,7 @@ const ValueChainPathways = () => {
   const urlParams = new URLSearchParams(location.search);
   const opportunityFilterType = urlParams.get('filterType') as 'feedstock' | 'technology' | 'product' | 'application' | null;
   const opportunityFilterValues = urlParams.get('filterValues')?.split('||').filter(Boolean) || [];
+  const feedstockFromUrl = urlParams.get('feedstock') || '';
   // Transition state
   const [transitioningPathway, setTransitioningPathway] = useState<number | null>(null);
   const [selectedPathway, setSelectedPathway] = useState<string | null>(null);
@@ -160,7 +161,7 @@ const ValueChainPathways = () => {
   const [feedstockFilter, setFeedstockFilter] = useState<string>('all');
   const [productFilter, setProductFilter] = useState<string>('all');
   const [applicationFilter, setApplicationFilter] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState<string>(feedstockFromUrl);
   const [viabilityFilter, setViabilityFilter] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [customPathways, setCustomPathways] = useState<CustomPathway[]>(() => {
