@@ -1112,7 +1112,7 @@ const PatentLandscape = () => {
                  }
 
                  {/* Subcategory Detail Dialog */}
-                 <Dialog open={!!selectedSubcategory} onOpenChange={(open) => !open && setSelectedSubcategory(null)}>
+                 <Dialog open={!!selectedSubcategory} onOpenChange={(open) => { if (!open) { setSelectedSubcategory(null); setSelectedTechInPopup(null); } }}>
                    <DialogContent className="max-w-[560px] p-0 gap-0 max-h-[80vh] overflow-hidden flex flex-col">
                      {selectedSubcategory && (() => {
                        const detail = getSubcategoryData(selectedSubcategory);
@@ -1125,50 +1125,52 @@ const PatentLandscape = () => {
                            </div>
 
                            <div className="overflow-y-auto flex-1">
-                             {/* Top Technologies */}
-                             <div className="px-5 py-4 border-b border-border">
+                             <div className="px-5 py-4">
                                <h5 className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
                                  <Beaker className="w-3 h-3" />
                                  Top Technologies ({detail.technologies.length})
                                </h5>
                                <div className="space-y-2">
                                  {detail.technologies.map((tech, i) => (
-                                   <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg border border-border bg-muted/30">
-                                     <div className="flex items-center gap-2">
-                                       <span className="text-[9px] font-bold text-muted-foreground w-4">{i + 1}.</span>
-                                       <span className="text-[10px] font-medium text-foreground">{tech.name}</span>
-                                     </div>
-                                     <div className="flex items-center gap-3">
-                                       <span className="text-[9px] text-muted-foreground">{tech.patents} patents</span>
-                                       <span className={`text-[9px] font-semibold ${tech.trendColor}`}>{tech.trend}</span>
-                                     </div>
-                                   </div>
-                                 ))}
-                               </div>
-                             </div>
-
-                             {/* Related Patents */}
-                             <div className="px-5 py-4">
-                               <h5 className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                 <FileText className="w-3 h-3" />
-                                 Recent Patents ({detail.patents.length})
-                               </h5>
-                               <div className="space-y-2">
-                                 {detail.patents.map((patent, i) => (
-                                   <div key={i} className="px-3 py-2.5 rounded-lg border border-border bg-muted/20 hover:bg-muted/40 transition-colors">
-                                     <div className="flex items-start justify-between gap-2">
-                                       <div className="min-w-0">
-                                         <p className="text-[10px] font-medium text-foreground leading-snug">{patent.title}</p>
-                                         <div className="flex items-center gap-2 mt-1">
-                                           <span className="text-[8px] text-muted-foreground">{patent.company}</span>
-                                           <span className="text-[8px] text-muted-foreground">·</span>
-                                           <span className="text-[8px] text-muted-foreground">{patent.year}</span>
-                                         </div>
+                                   <div key={i}>
+                                     <button
+                                       onClick={() => setSelectedTechInPopup(selectedTechInPopup === tech.name ? null : tech.name)}
+                                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-colors ${selectedTechInPopup === tech.name ? 'border-primary/40 bg-primary/5' : 'border-border bg-muted/30 hover:bg-muted/50'}`}
+                                     >
+                                       <div className="flex items-center gap-2">
+                                         <span className="text-[9px] font-bold text-muted-foreground w-4">{i + 1}.</span>
+                                         <span className="text-[10px] font-medium text-foreground">{tech.name}</span>
                                        </div>
-                                       <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${patent.status === 'Granted' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
-                                         {patent.status}
-                                       </span>
-                                     </div>
+                                       <div className="flex items-center gap-3">
+                                         <span className="text-[9px] text-muted-foreground">{tech.patents} patents</span>
+                                         <span className={`text-[9px] font-semibold ${tech.trendColor}`}>{tech.trend}</span>
+                                         <ChevronDown className={`w-3 h-3 text-muted-foreground transition-transform ${selectedTechInPopup === tech.name ? 'rotate-180' : ''}`} />
+                                       </div>
+                                     </button>
+                                     {selectedTechInPopup === tech.name && tech.patentList.length > 0 && (
+                                       <div className="mt-1.5 ml-6 space-y-1.5">
+                                         {tech.patentList.map((patent, j) => (
+                                           <div key={j} className="px-3 py-2.5 rounded-lg border border-border bg-muted/20">
+                                             <div className="flex items-start justify-between gap-2">
+                                               <div className="min-w-0">
+                                                 <p className="text-[10px] font-medium text-foreground leading-snug">{patent.title}</p>
+                                                 <div className="flex items-center gap-2 mt-1">
+                                                   <span className="text-[8px] text-muted-foreground">{patent.company}</span>
+                                                   <span className="text-[8px] text-muted-foreground">·</span>
+                                                   <span className="text-[8px] text-muted-foreground">{patent.year}</span>
+                                                 </div>
+                                               </div>
+                                               <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${patent.status === 'Granted' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
+                                                 {patent.status}
+                                               </span>
+                                             </div>
+                                           </div>
+                                         ))}
+                                       </div>
+                                     )}
+                                     {selectedTechInPopup === tech.name && tech.patentList.length === 0 && (
+                                       <p className="mt-1.5 ml-6 text-[9px] text-muted-foreground italic">No patents available for this technology.</p>
+                                     )}
                                    </div>
                                  ))}
                                </div>
