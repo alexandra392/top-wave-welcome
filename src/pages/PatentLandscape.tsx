@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, FileText, Filter, Download, Globe, FlaskConical, ShoppingBag, Leaf, Cpu, ChevronRight, ChevronDown, Search, X } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { ArrowLeft, Calendar, FileText, Filter, Download, Globe, FlaskConical, ShoppingBag, Leaf, Cpu, ChevronRight, ChevronDown, Search, X, Beaker, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
@@ -692,6 +693,71 @@ const PatentLandscape = () => {
   const [patentSearchTerm, setPatentSearchTerm] = useState('');
   const [trendChartMode] = useState<'spot'>('spot');
   const [trendTimeRange, setTrendTimeRange] = useState<string>('5');
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+
+  // Mock data for subcategory detail popups
+  const subcategoryDetails: Record<string, { technologies: { name: string; patents: number; trend: string; trendColor: string }[]; patents: { title: string; company: string; year: number; status: string }[] }> = {
+    'Corn Stover': {
+      technologies: [
+        { name: 'Enzymatic Hydrolysis', patents: 42, trend: '+24%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Steam Explosion Pretreatment', patents: 35, trend: '+18%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Dilute Acid Hydrolysis', patents: 28, trend: '+12%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Simultaneous Saccharification', patents: 22, trend: '+31%', trendColor: 'text-[hsl(142,60%,40%)]' },
+      ],
+      patents: [
+        { title: 'High-Yield Cellulose Extraction from Corn Stover via Enzymatic Cascade', company: 'Novozymes A/S', year: 2024, status: 'Filed' },
+        { title: 'Integrated Steam Explosion and Fermentation Process for Corn Stover', company: 'POET LLC', year: 2023, status: 'Granted' },
+        { title: 'Continuous Dilute Acid Pretreatment Reactor for Corn Stover Biomass', company: 'ADM', year: 2023, status: 'Filed' },
+        { title: 'Optimised Lignin Recovery from Corn Stover Hydrolysis Residue', company: 'Clariant AG', year: 2023, status: 'Granted' },
+        { title: 'AI-Driven Feedstock Quality Grading for Corn Stover Supply Chains', company: 'Deere & Company', year: 2024, status: 'Filed' },
+      ],
+    },
+    'Wheat Straw': {
+      technologies: [
+        { name: 'Organosolv Fractionation', patents: 38, trend: '+22%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Alkaline Pretreatment', patents: 30, trend: '+15%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Pyrolysis', patents: 24, trend: '+19%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Enzymatic Saccharification', patents: 20, trend: '+28%', trendColor: 'text-[hsl(142,60%,40%)]' },
+      ],
+      patents: [
+        { title: 'Organosolv Process for High-Purity Cellulose from Wheat Straw', company: 'ANDRITZ AG', year: 2024, status: 'Filed' },
+        { title: 'Alkaline Pretreatment Method for Wheat Straw Hemicellulose Extraction', company: 'Südzucker AG', year: 2023, status: 'Granted' },
+        { title: 'Fast Pyrolysis of Wheat Straw for Bio-Oil Production', company: 'BTG Bioliquids', year: 2023, status: 'Filed' },
+        { title: 'Continuous Enzymatic Hydrolysis System for Wheat Straw', company: 'DSM-Firmenich', year: 2024, status: 'Filed' },
+      ],
+    },
+    'Wood Chips': {
+      technologies: [
+        { name: 'Kraft Pulping Modified', patents: 32, trend: '+14%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Hydrothermal Treatment', patents: 26, trend: '+20%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Mechanical Refining', patents: 21, trend: '+11%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Torrefaction', patents: 18, trend: '+16%', trendColor: 'text-[hsl(142,60%,40%)]' },
+      ],
+      patents: [
+        { title: 'Modified Kraft Process for Nanocellulose from Softwood Chips', company: 'Stora Enso', year: 2024, status: 'Filed' },
+        { title: 'Subcritical Water Treatment of Wood Chips for Sugar Release', company: 'UPM-Kymmene', year: 2023, status: 'Granted' },
+        { title: 'High-Efficiency Disc Refiner for Wood Chip Fibrillation', company: 'Valmet', year: 2023, status: 'Filed' },
+      ],
+    },
+  };
+
+  // Generic fallback for subcategories without specific data
+  const getSubcategoryData = (name: string) => {
+    if (subcategoryDetails[name]) return subcategoryDetails[name];
+    return {
+      technologies: [
+        { name: 'Enzymatic Processing', patents: 28, trend: '+18%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Chemical Conversion', patents: 22, trend: '+14%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Thermal Processing', patents: 16, trend: '+21%', trendColor: 'text-[hsl(142,60%,40%)]' },
+        { name: 'Biological Treatment', patents: 12, trend: '+25%', trendColor: 'text-[hsl(142,60%,40%)]' },
+      ],
+      patents: [
+        { title: `Advanced Valorisation Process for ${name}`, company: 'Novozymes A/S', year: 2024, status: 'Filed' },
+        { title: `Integrated Biorefinery Approach for ${name} Conversion`, company: 'BASF SE', year: 2023, status: 'Granted' },
+        { title: `Novel Catalyst System for ${name} Upgrading`, company: 'Clariant AG', year: 2023, status: 'Filed' },
+      ],
+    };
+  };
 
   const decodedTopic = decodeURIComponent(topic || "");
   const decodedCategory = decodeURIComponent(category || "");
@@ -987,15 +1053,18 @@ const PatentLandscape = () => {
                               const renderRow = (r: typeof row, isChild: boolean = false) => (
                                 <tr 
                                   key={r.name} 
-                                  className={`border-b border-border/30 transition-colors ${isChild ? 'bg-muted/15' : ''} ${hasChildren && !isChild ? 'cursor-pointer hover:bg-muted/30' : 'hover:bg-muted/20'}`}
-                                  onClick={!isChild && hasChildren ? () => {
+                                  className={`border-b border-border/30 transition-colors cursor-pointer ${isChild ? 'bg-muted/15 hover:bg-muted/30' : ''} ${hasChildren && !isChild ? 'hover:bg-muted/30' : 'hover:bg-muted/20'}`}
+                                  onClick={isChild ? (e) => {
+                                    e.stopPropagation();
+                                    setSelectedSubcategory(r.name);
+                                  } : (hasChildren ? () => {
                                     setExpandedHeatRows(prev => {
                                       const next = new Set(prev);
                                       if (next.has(row.name)) next.delete(row.name);
                                       else next.add(row.name);
                                       return next;
                                     });
-                                  } : undefined}
+                                  } : undefined)}
                                 >
                                   <td className="py-[3px]">
                                     <div className={`flex items-center gap-1 ${isChild ? 'pl-5' : ''}`}>
@@ -1035,6 +1104,75 @@ const PatentLandscape = () => {
                      </table>
                    </div>
                  }
+
+                 {/* Subcategory Detail Dialog */}
+                 <Dialog open={!!selectedSubcategory} onOpenChange={(open) => !open && setSelectedSubcategory(null)}>
+                   <DialogContent className="max-w-[560px] p-0 gap-0 max-h-[80vh] overflow-hidden flex flex-col">
+                     {selectedSubcategory && (() => {
+                       const detail = getSubcategoryData(selectedSubcategory);
+                       return (
+                         <>
+                           <div className="px-5 py-4 border-b border-border flex-shrink-0">
+                             <DialogTitle className="text-[9px] font-bold uppercase tracking-wider text-primary mb-1">Feedstock Subcategory</DialogTitle>
+                             <h4 className="text-sm font-semibold text-foreground">{selectedSubcategory}</h4>
+                             <p className="text-[10px] text-muted-foreground mt-1">Top technologies to valorise {selectedSubcategory.toLowerCase()} based on patent activity.</p>
+                           </div>
+
+                           <div className="overflow-y-auto flex-1">
+                             {/* Top Technologies */}
+                             <div className="px-5 py-4 border-b border-border">
+                               <h5 className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                 <Beaker className="w-3 h-3" />
+                                 Top Technologies ({detail.technologies.length})
+                               </h5>
+                               <div className="space-y-2">
+                                 {detail.technologies.map((tech, i) => (
+                                   <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg border border-border bg-muted/30">
+                                     <div className="flex items-center gap-2">
+                                       <span className="text-[9px] font-bold text-muted-foreground w-4">{i + 1}.</span>
+                                       <span className="text-[10px] font-medium text-foreground">{tech.name}</span>
+                                     </div>
+                                     <div className="flex items-center gap-3">
+                                       <span className="text-[9px] text-muted-foreground">{tech.patents} patents</span>
+                                       <span className={`text-[9px] font-semibold ${tech.trendColor}`}>{tech.trend}</span>
+                                     </div>
+                                   </div>
+                                 ))}
+                               </div>
+                             </div>
+
+                             {/* Related Patents */}
+                             <div className="px-5 py-4">
+                               <h5 className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                 <FileText className="w-3 h-3" />
+                                 Recent Patents ({detail.patents.length})
+                               </h5>
+                               <div className="space-y-2">
+                                 {detail.patents.map((patent, i) => (
+                                   <div key={i} className="px-3 py-2.5 rounded-lg border border-border bg-muted/20 hover:bg-muted/40 transition-colors">
+                                     <div className="flex items-start justify-between gap-2">
+                                       <div className="min-w-0">
+                                         <p className="text-[10px] font-medium text-foreground leading-snug">{patent.title}</p>
+                                         <div className="flex items-center gap-2 mt-1">
+                                           <span className="text-[8px] text-muted-foreground">{patent.company}</span>
+                                           <span className="text-[8px] text-muted-foreground">·</span>
+                                           <span className="text-[8px] text-muted-foreground">{patent.year}</span>
+                                         </div>
+                                       </div>
+                                       <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${patent.status === 'Granted' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
+                                         {patent.status}
+                                       </span>
+                                     </div>
+                                   </div>
+                                 ))}
+                               </div>
+                             </div>
+                           </div>
+                         </>
+                       );
+                     })()}
+                   </DialogContent>
+                 </Dialog>
 
 
                 {/* Geographic Distribution + CPC side by side */}
