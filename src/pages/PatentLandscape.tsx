@@ -1053,15 +1053,18 @@ const PatentLandscape = () => {
                               const renderRow = (r: typeof row, isChild: boolean = false) => (
                                 <tr 
                                   key={r.name} 
-                                  className={`border-b border-border/30 transition-colors ${isChild ? 'bg-muted/15' : ''} ${hasChildren && !isChild ? 'cursor-pointer hover:bg-muted/30' : 'hover:bg-muted/20'}`}
-                                  onClick={!isChild && hasChildren ? () => {
+                                  className={`border-b border-border/30 transition-colors cursor-pointer ${isChild ? 'bg-muted/15 hover:bg-muted/30' : ''} ${hasChildren && !isChild ? 'hover:bg-muted/30' : 'hover:bg-muted/20'}`}
+                                  onClick={isChild ? (e) => {
+                                    e.stopPropagation();
+                                    setSelectedSubcategory(r.name);
+                                  } : (hasChildren ? () => {
                                     setExpandedHeatRows(prev => {
                                       const next = new Set(prev);
                                       if (next.has(row.name)) next.delete(row.name);
                                       else next.add(row.name);
                                       return next;
                                     });
-                                  } : undefined}
+                                  } : undefined)}
                                 >
                                   <td className="py-[3px]">
                                     <div className={`flex items-center gap-1 ${isChild ? 'pl-5' : ''}`}>
