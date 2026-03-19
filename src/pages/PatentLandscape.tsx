@@ -694,6 +694,7 @@ const PatentLandscape = () => {
   const [trendChartMode] = useState<'spot'>('spot');
   const [trendTimeRange, setTrendTimeRange] = useState<string>('5');
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [selectedTechInPopup, setSelectedTechInPopup] = useState<string | null>(null);
 
   // Mock data for subcategory detail popups
   const subcategoryDetails: Record<string, { technologies: { name: string; patents: number; trend: string; trendColor: string }[]; patents: { title: string; company: string; year: number; status: string }[] }> = {
