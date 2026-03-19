@@ -523,7 +523,14 @@ const ValueChainPathways = () => {
     <TooltipProvider delayDuration={100}>
       <div className="h-full bg-background flex flex-col">
         <div className="max-w-[1400px] w-full mx-auto px-6 pt-4 pb-3 flex items-center justify-between flex-shrink-0">
-           <Button variant="outline" size="sm" className="gap-1.5 h-7 text-xs" onClick={() => navigate(`/landscape/${category}/${topic}/value-chain`)}>
+           <Button variant="outline" size="sm" className="gap-1.5 h-7 text-xs" onClick={() => {
+             const navState = location.state as any;
+             if (navState?.fromPatents) {
+               navigate(`/landscape/${category}/${topic}/patents`);
+             } else {
+               navigate(`/landscape/${category}/${topic}/value-chain`);
+             }
+           }}>
             <ArrowLeft className="w-3.5 h-3.5" />
             Back
           </Button>
