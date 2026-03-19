@@ -1184,9 +1184,9 @@ const PatentLandscape = () => {
                                   setSelectedTechInPopup(null);
                                   navigate(`/landscape/${category}/${topic}/value-chain/pathways?feedstock=${encodeURIComponent(selectedSubcategory!)}`);
                                 }}
-                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs gap-2"
+                                className="w-full bg-foreground hover:bg-foreground/90 text-background text-xs gap-2"
                               >
-                                View Pathways for {selectedSubcategory}
+                                Explore Pathways for {selectedSubcategory}
                                 <ArrowRight className="w-3.5 h-3.5" />
                               </Button>
                             </div>
