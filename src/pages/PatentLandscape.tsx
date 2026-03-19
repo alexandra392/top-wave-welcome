@@ -1174,9 +1174,23 @@ const PatentLandscape = () => {
                                    </div>
                                  ))}
                                </div>
-                             </div>
-                           </div>
-                         </>
+                              </div>
+                            </div>
+
+                            <div className="px-5 py-3 border-t border-border flex-shrink-0">
+                              <Button
+                                onClick={() => {
+                                  setSelectedSubcategory(null);
+                                  setSelectedTechInPopup(null);
+                                  navigate(`/landscape/${category}/${topic}/value-chain/pathways?feedstock=${encodeURIComponent(selectedSubcategory!)}`);
+                                }}
+                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs gap-2"
+                              >
+                                View Pathways for {selectedSubcategory}
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </Button>
+                            </div>
+                          </>
                        );
                      })()}
                    </DialogContent>
