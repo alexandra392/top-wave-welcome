@@ -795,12 +795,7 @@ const PatentLandscape = () => {
                       <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Patent Trends</h3>
                       <p className="text-[9px] text-muted-foreground leading-tight">This view highlights innovation intensity across key regions, helping you identify technological hotspots, potential IP barriers, and market leaders in circular feedstock development.</p>
                     </div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex gap-0.5">
-                        <span className="px-2 py-0.5 rounded text-[9px] font-medium bg-foreground text-background shadow-sm">
-                          Spot Trend
-                        </span>
-                      </div>
+                    <div className="flex items-center justify-end mb-1.5">
                       <Select value={trendTimeRange} onValueChange={setTrendTimeRange}>
                         <SelectTrigger className="h-5 w-auto gap-1 px-1.5 text-[9px] border-border bg-background text-muted-foreground [&>svg]:h-2.5 [&>svg]:w-2.5">
                           <Calendar className="w-2.5 h-2.5" />
