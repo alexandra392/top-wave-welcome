@@ -1103,76 +1103,76 @@ const PatentLandscape = () => {
                        </tbody>
                      </table>
                    </div>
-
-                   {/* Subcategory Detail Dialog */}
-                   <Dialog open={!!selectedSubcategory} onOpenChange={(open) => !open && setSelectedSubcategory(null)}>
-                     <DialogContent className="max-w-[560px] p-0 gap-0 max-h-[80vh] overflow-hidden flex flex-col">
-                       {selectedSubcategory && (() => {
-                         const detail = getSubcategoryData(selectedSubcategory);
-                         return (
-                           <>
-                             <div className="px-5 py-4 border-b border-border flex-shrink-0">
-                               <DialogTitle className="text-[9px] font-bold uppercase tracking-wider text-primary mb-1">Feedstock Subcategory</DialogTitle>
-                               <h4 className="text-sm font-semibold text-foreground">{selectedSubcategory}</h4>
-                               <p className="text-[10px] text-muted-foreground mt-1">Top technologies to valorise {selectedSubcategory.toLowerCase()} based on patent activity.</p>
-                             </div>
-
-                             <div className="overflow-y-auto flex-1">
-                               {/* Top Technologies */}
-                               <div className="px-5 py-4 border-b border-border">
-                                 <h5 className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                   <Beaker className="w-3 h-3" />
-                                   Top Technologies ({detail.technologies.length})
-                                 </h5>
-                                 <div className="space-y-2">
-                                   {detail.technologies.map((tech, i) => (
-                                     <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg border border-border bg-muted/30">
-                                       <div className="flex items-center gap-2">
-                                         <span className="text-[9px] font-bold text-muted-foreground w-4">{i + 1}.</span>
-                                         <span className="text-[10px] font-medium text-foreground">{tech.name}</span>
-                                       </div>
-                                       <div className="flex items-center gap-3">
-                                         <span className="text-[9px] text-muted-foreground">{tech.patents} patents</span>
-                                         <span className={`text-[9px] font-semibold ${tech.trendColor}`}>{tech.trend}</span>
-                                       </div>
-                                     </div>
-                                   ))}
-                                 </div>
-                               </div>
-
-                               {/* Related Patents */}
-                               <div className="px-5 py-4">
-                                 <h5 className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                   <FileText className="w-3 h-3" />
-                                   Recent Patents ({detail.patents.length})
-                                 </h5>
-                                 <div className="space-y-2">
-                                   {detail.patents.map((patent, i) => (
-                                     <div key={i} className="px-3 py-2.5 rounded-lg border border-border bg-muted/20 hover:bg-muted/40 transition-colors">
-                                       <div className="flex items-start justify-between gap-2">
-                                         <div className="min-w-0">
-                                           <p className="text-[10px] font-medium text-foreground leading-snug">{patent.title}</p>
-                                           <div className="flex items-center gap-2 mt-1">
-                                             <span className="text-[8px] text-muted-foreground">{patent.company}</span>
-                                             <span className="text-[8px] text-muted-foreground">·</span>
-                                             <span className="text-[8px] text-muted-foreground">{patent.year}</span>
-                                           </div>
-                                         </div>
-                                         <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${patent.status === 'Granted' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
-                                           {patent.status}
-                                         </span>
-                                       </div>
-                                     </div>
-                                   ))}
-                                 </div>
-                               </div>
-                             </div>
-                           </>
-                         );
-                       })()}
-                     </DialogContent>
-                   </Dialog>
                  }
+
+                 {/* Subcategory Detail Dialog */}
+                 <Dialog open={!!selectedSubcategory} onOpenChange={(open) => !open && setSelectedSubcategory(null)}>
+                   <DialogContent className="max-w-[560px] p-0 gap-0 max-h-[80vh] overflow-hidden flex flex-col">
+                     {selectedSubcategory && (() => {
+                       const detail = getSubcategoryData(selectedSubcategory);
+                       return (
+                         <>
+                           <div className="px-5 py-4 border-b border-border flex-shrink-0">
+                             <DialogTitle className="text-[9px] font-bold uppercase tracking-wider text-primary mb-1">Feedstock Subcategory</DialogTitle>
+                             <h4 className="text-sm font-semibold text-foreground">{selectedSubcategory}</h4>
+                             <p className="text-[10px] text-muted-foreground mt-1">Top technologies to valorise {selectedSubcategory.toLowerCase()} based on patent activity.</p>
+                           </div>
+
+                           <div className="overflow-y-auto flex-1">
+                             {/* Top Technologies */}
+                             <div className="px-5 py-4 border-b border-border">
+                               <h5 className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                 <Beaker className="w-3 h-3" />
+                                 Top Technologies ({detail.technologies.length})
+                               </h5>
+                               <div className="space-y-2">
+                                 {detail.technologies.map((tech, i) => (
+                                   <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg border border-border bg-muted/30">
+                                     <div className="flex items-center gap-2">
+                                       <span className="text-[9px] font-bold text-muted-foreground w-4">{i + 1}.</span>
+                                       <span className="text-[10px] font-medium text-foreground">{tech.name}</span>
+                                     </div>
+                                     <div className="flex items-center gap-3">
+                                       <span className="text-[9px] text-muted-foreground">{tech.patents} patents</span>
+                                       <span className={`text-[9px] font-semibold ${tech.trendColor}`}>{tech.trend}</span>
+                                     </div>
+                                   </div>
+                                 ))}
+                               </div>
+                             </div>
+
+                             {/* Related Patents */}
+                             <div className="px-5 py-4">
+                               <h5 className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                 <FileText className="w-3 h-3" />
+                                 Recent Patents ({detail.patents.length})
+                               </h5>
+                               <div className="space-y-2">
+                                 {detail.patents.map((patent, i) => (
+                                   <div key={i} className="px-3 py-2.5 rounded-lg border border-border bg-muted/20 hover:bg-muted/40 transition-colors">
+                                     <div className="flex items-start justify-between gap-2">
+                                       <div className="min-w-0">
+                                         <p className="text-[10px] font-medium text-foreground leading-snug">{patent.title}</p>
+                                         <div className="flex items-center gap-2 mt-1">
+                                           <span className="text-[8px] text-muted-foreground">{patent.company}</span>
+                                           <span className="text-[8px] text-muted-foreground">·</span>
+                                           <span className="text-[8px] text-muted-foreground">{patent.year}</span>
+                                         </div>
+                                       </div>
+                                       <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${patent.status === 'Granted' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
+                                         {patent.status}
+                                       </span>
+                                     </div>
+                                   </div>
+                                 ))}
+                               </div>
+                             </div>
+                           </div>
+                         </>
+                       );
+                     })()}
+                   </DialogContent>
+                 </Dialog>
 
 
                 {/* Geographic Distribution + CPC side by side */}
