@@ -1182,7 +1182,7 @@ const PatentLandscape = () => {
                                 onClick={() => {
                                   setSelectedSubcategory(null);
                                   setSelectedTechInPopup(null);
-                                  navigate(`/landscape/${category}/${topic}/value-chain/pathways?feedstock=${encodeURIComponent(selectedSubcategory!)}`, { state: { fromPatents: true } });
+                                  navigate(`/landscape/${category}/${topic}/value-chain/pathways?feedstock=${encodeURIComponent(selectedSubcategory!)}&from=patents`);
                                 }}
                                 className="w-full bg-foreground hover:bg-foreground/90 text-background text-xs gap-2"
                               >
