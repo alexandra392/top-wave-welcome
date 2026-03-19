@@ -696,66 +696,71 @@ const PatentLandscape = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
   const [selectedTechInPopup, setSelectedTechInPopup] = useState<string | null>(null);
 
-  // Mock data for subcategory detail popups
-  const subcategoryDetails: Record<string, { technologies: { name: string; patents: number; trend: string; trendColor: string }[]; patents: { title: string; company: string; year: number; status: string }[] }> = {
+  // Mock data for subcategory detail popups - patents grouped by technology
+  const subcategoryDetails: Record<string, { technologies: { name: string; patents: number; trend: string; trendColor: string; patentList: { title: string; company: string; year: number; status: string }[] }[] }> = {
     'Corn Stover': {
       technologies: [
-        { name: 'Enzymatic Hydrolysis', patents: 42, trend: '+24%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Steam Explosion Pretreatment', patents: 35, trend: '+18%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Dilute Acid Hydrolysis', patents: 28, trend: '+12%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Simultaneous Saccharification', patents: 22, trend: '+31%', trendColor: 'text-[hsl(142,60%,40%)]' },
-      ],
-      patents: [
-        { title: 'High-Yield Cellulose Extraction from Corn Stover via Enzymatic Cascade', company: 'Novozymes A/S', year: 2024, status: 'Filed' },
-        { title: 'Integrated Steam Explosion and Fermentation Process for Corn Stover', company: 'POET LLC', year: 2023, status: 'Granted' },
-        { title: 'Continuous Dilute Acid Pretreatment Reactor for Corn Stover Biomass', company: 'ADM', year: 2023, status: 'Filed' },
-        { title: 'Optimised Lignin Recovery from Corn Stover Hydrolysis Residue', company: 'Clariant AG', year: 2023, status: 'Granted' },
-        { title: 'AI-Driven Feedstock Quality Grading for Corn Stover Supply Chains', company: 'Deere & Company', year: 2024, status: 'Filed' },
+        { name: 'Enzymatic Hydrolysis', patents: 42, trend: '+24%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'High-Yield Cellulose Extraction from Corn Stover via Enzymatic Cascade', company: 'Novozymes A/S', year: 2024, status: 'Filed' },
+          { title: 'Optimised Lignin Recovery from Corn Stover Hydrolysis Residue', company: 'Clariant AG', year: 2023, status: 'Granted' },
+        ]},
+        { name: 'Steam Explosion Pretreatment', patents: 35, trend: '+18%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'Integrated Steam Explosion and Fermentation Process for Corn Stover', company: 'POET LLC', year: 2023, status: 'Granted' },
+        ]},
+        { name: 'Dilute Acid Hydrolysis', patents: 28, trend: '+12%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'Continuous Dilute Acid Pretreatment Reactor for Corn Stover Biomass', company: 'ADM', year: 2023, status: 'Filed' },
+        ]},
+        { name: 'Simultaneous Saccharification', patents: 22, trend: '+31%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'AI-Driven Feedstock Quality Grading for Corn Stover Supply Chains', company: 'Deere & Company', year: 2024, status: 'Filed' },
+        ]},
       ],
     },
     'Wheat Straw': {
       technologies: [
-        { name: 'Organosolv Fractionation', patents: 38, trend: '+22%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Alkaline Pretreatment', patents: 30, trend: '+15%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Pyrolysis', patents: 24, trend: '+19%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Enzymatic Saccharification', patents: 20, trend: '+28%', trendColor: 'text-[hsl(142,60%,40%)]' },
-      ],
-      patents: [
-        { title: 'Organosolv Process for High-Purity Cellulose from Wheat Straw', company: 'ANDRITZ AG', year: 2024, status: 'Filed' },
-        { title: 'Alkaline Pretreatment Method for Wheat Straw Hemicellulose Extraction', company: 'Südzucker AG', year: 2023, status: 'Granted' },
-        { title: 'Fast Pyrolysis of Wheat Straw for Bio-Oil Production', company: 'BTG Bioliquids', year: 2023, status: 'Filed' },
-        { title: 'Continuous Enzymatic Hydrolysis System for Wheat Straw', company: 'DSM-Firmenich', year: 2024, status: 'Filed' },
+        { name: 'Organosolv Fractionation', patents: 38, trend: '+22%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'Organosolv Process for High-Purity Cellulose from Wheat Straw', company: 'ANDRITZ AG', year: 2024, status: 'Filed' },
+        ]},
+        { name: 'Alkaline Pretreatment', patents: 30, trend: '+15%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'Alkaline Pretreatment Method for Wheat Straw Hemicellulose Extraction', company: 'Südzucker AG', year: 2023, status: 'Granted' },
+        ]},
+        { name: 'Pyrolysis', patents: 24, trend: '+19%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'Fast Pyrolysis of Wheat Straw for Bio-Oil Production', company: 'BTG Bioliquids', year: 2023, status: 'Filed' },
+        ]},
+        { name: 'Enzymatic Saccharification', patents: 20, trend: '+28%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'Continuous Enzymatic Hydrolysis System for Wheat Straw', company: 'DSM-Firmenich', year: 2024, status: 'Filed' },
+        ]},
       ],
     },
     'Wood Chips': {
       technologies: [
-        { name: 'Kraft Pulping Modified', patents: 32, trend: '+14%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Hydrothermal Treatment', patents: 26, trend: '+20%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Mechanical Refining', patents: 21, trend: '+11%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Torrefaction', patents: 18, trend: '+16%', trendColor: 'text-[hsl(142,60%,40%)]' },
-      ],
-      patents: [
-        { title: 'Modified Kraft Process for Nanocellulose from Softwood Chips', company: 'Stora Enso', year: 2024, status: 'Filed' },
-        { title: 'Subcritical Water Treatment of Wood Chips for Sugar Release', company: 'UPM-Kymmene', year: 2023, status: 'Granted' },
-        { title: 'High-Efficiency Disc Refiner for Wood Chip Fibrillation', company: 'Valmet', year: 2023, status: 'Filed' },
+        { name: 'Kraft Pulping Modified', patents: 32, trend: '+14%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'Modified Kraft Process for Nanocellulose from Softwood Chips', company: 'Stora Enso', year: 2024, status: 'Filed' },
+        ]},
+        { name: 'Hydrothermal Treatment', patents: 26, trend: '+20%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'Subcritical Water Treatment of Wood Chips for Sugar Release', company: 'UPM-Kymmene', year: 2023, status: 'Granted' },
+        ]},
+        { name: 'Mechanical Refining', patents: 21, trend: '+11%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: 'High-Efficiency Disc Refiner for Wood Chip Fibrillation', company: 'Valmet', year: 2023, status: 'Filed' },
+        ]},
+        { name: 'Torrefaction', patents: 18, trend: '+16%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [] },
       ],
     },
   };
 
-  // Generic fallback for subcategories without specific data
   const getSubcategoryData = (name: string) => {
     if (subcategoryDetails[name]) return subcategoryDetails[name];
     return {
       technologies: [
-        { name: 'Enzymatic Processing', patents: 28, trend: '+18%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Chemical Conversion', patents: 22, trend: '+14%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Thermal Processing', patents: 16, trend: '+21%', trendColor: 'text-[hsl(142,60%,40%)]' },
-        { name: 'Biological Treatment', patents: 12, trend: '+25%', trendColor: 'text-[hsl(142,60%,40%)]' },
-      ],
-      patents: [
-        { title: `Advanced Valorisation Process for ${name}`, company: 'Novozymes A/S', year: 2024, status: 'Filed' },
-        { title: `Integrated Biorefinery Approach for ${name} Conversion`, company: 'BASF SE', year: 2023, status: 'Granted' },
-        { title: `Novel Catalyst System for ${name} Upgrading`, company: 'Clariant AG', year: 2023, status: 'Filed' },
+        { name: 'Enzymatic Processing', patents: 28, trend: '+18%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: `Advanced Valorisation Process for ${name}`, company: 'Novozymes A/S', year: 2024, status: 'Filed' },
+        ]},
+        { name: 'Chemical Conversion', patents: 22, trend: '+14%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: `Integrated Biorefinery Approach for ${name} Conversion`, company: 'BASF SE', year: 2023, status: 'Granted' },
+        ]},
+        { name: 'Thermal Processing', patents: 16, trend: '+21%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [
+          { title: `Novel Catalyst System for ${name} Upgrading`, company: 'Clariant AG', year: 2023, status: 'Filed' },
+        ]},
+        { name: 'Biological Treatment', patents: 12, trend: '+25%', trendColor: 'text-[hsl(142,60%,40%)]', patentList: [] },
       ],
     };
   };
