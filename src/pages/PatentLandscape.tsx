@@ -813,8 +813,7 @@ const PatentLandscape = () => {
                       </Select>
                     </div>
                     <div className="h-[150px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        {trendChartMode === 'spot' ? (
+                        <ResponsiveContainer width="100%" height="100%">
                           <LineChart data={trendData} margin={{ top: 5, right: 8, left: -20, bottom: 0 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.4} />
                             <XAxis dataKey="year" tick={{ fontSize: 8, fill: 'hsl(var(--muted-foreground))' }} tickLine={false} axisLine={{ stroke: 'hsl(var(--border))' }} />
@@ -824,17 +823,6 @@ const PatentLandscape = () => {
                             <Line type="monotone" dataKey="EU" stroke="hsl(var(--primary))" strokeWidth={1.5} dot={{ r: 2.5, fill: 'hsl(var(--primary))', stroke: '#fff', strokeWidth: 1 }} name="EU" />
                             <Line type="monotone" dataKey="Other" stroke="#f59e0b" strokeWidth={1.5} dot={{ r: 2.5, fill: '#f59e0b', stroke: '#fff', strokeWidth: 1 }} name="Other" />
                           </LineChart>
-                        ) : (
-                          <BarChart data={trendData} margin={{ top: 5, right: 8, left: -20, bottom: 0 }} barGap={2} barCategoryGap="20%">
-                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.4} />
-                            <XAxis dataKey="year" tick={{ fontSize: 8, fill: 'hsl(var(--muted-foreground))' }} tickLine={false} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                            <YAxis tick={{ fontSize: 8, fill: 'hsl(var(--muted-foreground))' }} tickLine={false} axisLine={false} label={{ value: 'Number of patents', angle: -90, position: 'center', dx: -18, style: { fontSize: 7, fill: 'hsl(var(--muted-foreground))' } }} />
-                            <Tooltip contentStyle={{ fontSize: 9, borderRadius: 6, border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))', padding: '4px 8px' }} />
-                            <Bar dataKey="EU" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} />
-                            <Bar dataKey="US" fill="#3b82f6" radius={[2, 2, 0, 0]} />
-                            <Bar dataKey="Other" fill="#f59e0b" radius={[2, 2, 0, 0]} />
-                          </BarChart>
-                        )}
                       </ResponsiveContainer>
                     </div>
                   </div>
